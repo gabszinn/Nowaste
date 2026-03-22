@@ -1,21 +1,25 @@
 package A3.project.noWaste.service.impl;
 
 import A3.project.noWaste.domain.User;
+import A3.project.noWaste.domain.dto.UserDTO;
 import A3.project.noWaste.infra.UserRepository;
 import A3.project.noWaste.service.UserService;
 import A3.project.noWaste.service.exceptions.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Service
 public class UserImpl implements UserService {
 
     @Autowired
+    private ModelMapper mapper;
+
+    @Autowired
     private UserRepository repository;
-    private PasswordEncoder passwordEncoder;
 
 
     // find a user
@@ -33,15 +37,9 @@ public class UserImpl implements UserService {
 
     // create User
     @Override
-    public User create(User user) {
-        if (!repository.existsByEmail(user.getEmail())) {
-            String encoder = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encoder);
-            User newUser = repository.save(user);
-            return newUser;
-        } else {
-            throw new RuntimeException("email inserido já cadastrado");
-        }
+    public User create(UserDTO obj) {
+        User user = mapper.map(obj, User.class);
+        return repository.save(user);
     }
 
     // delete User

@@ -1,6 +1,5 @@
 package A3.project.noWaste.ui;
 
-import A3.project.noWaste.config.ModelMapperConfig;
 import A3.project.noWaste.domain.User;
 import A3.project.noWaste.domain.dto.UserDTO;
 import A3.project.noWaste.service.exceptions.UserNotFoundException;
@@ -10,7 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,8 +43,11 @@ public class UserController {
 
     // CADASTRAR USUARIOS
     @PostMapping
-    public ResponseEntity cadastrarUsuario(@RequestBody @Valid User user) {
-        return ResponseEntity.status(201).body(service.create(user));
+    public ResponseEntity<UserDTO> create(@RequestBody UserDTO obj) {
+        User newObj = service.create(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newObj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     // DELETAR USUARIO

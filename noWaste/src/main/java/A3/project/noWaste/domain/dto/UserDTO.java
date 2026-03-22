@@ -1,13 +1,12 @@
 package A3.project.noWaste.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Setter @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
@@ -16,7 +15,7 @@ public class UserDTO {
     private String Username;
     private String email;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
 }

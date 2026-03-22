@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -24,7 +24,6 @@ public class User {
     @Email(message = "Email digitado inválido")
     private String email;
 
-    @NotBlank(message = "Senha não poder nula")
     private String password;
 
 }
