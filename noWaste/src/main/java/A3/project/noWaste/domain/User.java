@@ -7,6 +7,7 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "users")
@@ -25,6 +26,5 @@ public class User {
 
     @NotBlank(message = "Senha não poder nula")
     private String password;
-
 
 }

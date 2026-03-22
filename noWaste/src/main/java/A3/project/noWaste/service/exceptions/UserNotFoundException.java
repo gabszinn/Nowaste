@@ -1,4 +1,4 @@
-package A3.project.noWaste.domain.exceptions;
+package A3.project.noWaste.service.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
 
