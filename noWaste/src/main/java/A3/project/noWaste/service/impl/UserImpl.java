@@ -3,6 +3,7 @@ package A3.project.noWaste.service.impl;
 import A3.project.noWaste.domain.User;
 import A3.project.noWaste.infra.UserRepository;
 import A3.project.noWaste.service.UserService;
+import A3.project.noWaste.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,11 +17,12 @@ public class UserImpl implements UserService {
     private UserRepository repository;
     private PasswordEncoder passwordEncoder;
 
+
     // find a user
     @Override
     public User findById(Integer Id) {
         Optional<User> obj = repository.findById(Id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
     // find all Users
