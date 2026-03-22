@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/users")
@@ -30,8 +33,11 @@ public class UserController {
 
     // LISTAR USUARIOS
     @GetMapping
-    public ResponseEntity listarUsuarios() {
-        return ResponseEntity.ok().body(service.findAll());
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<User> list = service.findAll();
+        List<UserDTO> listDTO = list.stream().map(x -> mapper.map(x, UserDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDTO);
     }
 
     // CADASTRAR USUARIOS
