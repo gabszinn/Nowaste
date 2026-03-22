@@ -1,5 +1,6 @@
 package A3.project.noWaste.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,8 @@ public class UserDTO {
     private Integer Id;
     private String Username;
     private String email;
+
+    @JsonIgnore
     private String password;
 
 }

@@ -1,9 +1,12 @@
 package A3.project.noWaste.ui;
 
+import A3.project.noWaste.config.ModelMapperConfig;
 import A3.project.noWaste.domain.User;
+import A3.project.noWaste.domain.dto.UserDTO;
 import A3.project.noWaste.service.exceptions.UserNotFoundException;
 import A3.project.noWaste.service.UserService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +19,13 @@ public class UserController {
     @Autowired
     UserService service;
 
+    @Autowired
+    private ModelMapper mapper;
+
     // BUSCAR UM USUÁRIO
     @GetMapping(value = "/{Id}")
-    public ResponseEntity<User> findById(@PathVariable Integer Id){
-        return ResponseEntity.ok().body(service.findById(Id));
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer Id){
+        return ResponseEntity.ok().body(mapper.map(service.findById(Id), UserDTO.class));
     }
 
     // LISTAR USUARIOS
