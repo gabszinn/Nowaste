@@ -44,6 +44,13 @@ public class UserImpl implements UserService {
         return repository.save(user);
     }
 
+    // update user
+    @Override
+    public User update(UserDTO obj) {
+        findByEmail(obj);
+        return repository.save(mapper.map(obj, User.class));
+    }
+
     // delete User
     @Override
     public boolean delete(Integer id) {
@@ -54,9 +61,10 @@ public class UserImpl implements UserService {
         return true;
     }
 
+    // email verification
     public void findByEmail(UserDTO obj) {
         Optional<User> user = repository.findByEmail(obj.getEmail());
-        if (user.isPresent()) {
+        if (user.isPresent() && user.get().getId().equals(obj.getId())) {
             throw new DataIntegratyViolationException("Email já cadastrado no sistema");
         }
     }

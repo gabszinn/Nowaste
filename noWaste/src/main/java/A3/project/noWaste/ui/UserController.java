@@ -26,13 +26,13 @@ public class UserController {
     private ModelMapper mapper;
 
 
-    // BUSCAR UM USUÁRIO
+    // find a user
     @GetMapping(value = "/{Id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Integer Id){
         return ResponseEntity.ok().body(mapper.map(service.findById(Id), UserDTO.class));
     }
 
-    // LISTAR USUARIOS
+    // get users
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
         List<User> list = service.findAll();
@@ -41,7 +41,7 @@ public class UserController {
         return ResponseEntity.ok().body(listDTO);
     }
 
-    // CADASTRAR USUARIOS
+    // add user
     @PostMapping
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO obj) {
         User newObj = service.create(obj);
@@ -50,7 +50,16 @@ public class UserController {
         return ResponseEntity.created(uri).build();
     }
 
-    // DELETAR USUARIO
+    // update user
+    @PutMapping(value = "/{Id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Integer Id, @RequestBody UserDTO obj) {
+        obj.setId(Id);
+        User newObj = service.update(obj);
+        return ResponseEntity.ok().body(mapper.map(newObj, UserDTO.class));
+    }
+
+
+    // delete user
     @DeleteMapping("/{Id}")
     public ResponseEntity deletarUsuario(@PathVariable Integer Id) throws UserNotFoundException {
         boolean existe = service.delete(Id);
