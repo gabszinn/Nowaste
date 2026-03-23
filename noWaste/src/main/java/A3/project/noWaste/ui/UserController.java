@@ -2,7 +2,6 @@ package A3.project.noWaste.ui;
 
 import A3.project.noWaste.domain.User;
 import A3.project.noWaste.domain.dto.UserDTO;
-import A3.project.noWaste.service.exceptions.UserNotFoundException;
 import A3.project.noWaste.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

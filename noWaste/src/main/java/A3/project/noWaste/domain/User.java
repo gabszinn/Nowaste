@@ -11,7 +11,7 @@ import lombok.*;
 @EqualsAndHashCode
 @Entity
 @Table(name = "users")
-public class User {
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,7 @@ public class User {
     @Email(message = "Email digitado inválido")
     private String email;
 
+    @NotBlank(message = "Senha não pode ser nula")
     private String password;
 
 }
