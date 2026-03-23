@@ -57,7 +57,6 @@ public class UserController {
         return ResponseEntity.ok().body(mapper.map(newObj, UserDTO.class));
     }
 
-
     // delete user
     @DeleteMapping(value = "/{Id}")
     public ResponseEntity delete(@PathVariable Integer Id) {
