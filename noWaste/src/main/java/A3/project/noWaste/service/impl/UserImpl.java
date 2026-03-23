@@ -4,6 +4,7 @@ import A3.project.noWaste.domain.User;
 import A3.project.noWaste.domain.dto.UserDTO;
 import A3.project.noWaste.infra.UserRepository;
 import A3.project.noWaste.service.UserService;
+import A3.project.noWaste.service.exceptions.DataIntegratyViolationException;
 import A3.project.noWaste.service.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class UserImpl implements UserService {
     // create User
     @Override
     public User create(UserDTO obj) {
+        findByEmail(obj);
         User user = mapper.map(obj, User.class);
         return repository.save(user);
     }
@@ -50,6 +52,13 @@ public class UserImpl implements UserService {
         }
         repository.deleteById(id);
         return true;
+    }
+
+    public void findByEmail(UserDTO obj) {
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if (user.isPresent()) {
+            throw new DataIntegratyViolationException("Email já cadastrado no sistema");
+        }
     }
 
 }

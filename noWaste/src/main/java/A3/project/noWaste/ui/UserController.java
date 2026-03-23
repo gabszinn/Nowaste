@@ -4,7 +4,6 @@ import A3.project.noWaste.domain.User;
 import A3.project.noWaste.domain.dto.UserDTO;
 import A3.project.noWaste.service.exceptions.UserNotFoundException;
 import A3.project.noWaste.service.UserService;
-import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ public class UserController {
 
     @Autowired
     private ModelMapper mapper;
+
 
     // BUSCAR UM USUÁRIO
     @GetMapping(value = "/{Id}")
