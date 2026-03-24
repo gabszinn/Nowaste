@@ -1,8 +1,7 @@
 package A3.project.noWaste.ui;
 
 import A3.project.noWaste.domain.User;
-import A3.project.noWaste.domain.dto.UserDTO;
-import A3.project.noWaste.service.exceptions.UserNotFoundException;
+import A3.project.noWaste.dto.UserDTO;
 import A3.project.noWaste.service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -26,13 +25,8 @@ public class UserController {
     @Autowired
     private ModelMapper mapper;
 
-    // BUSCAR UM USUÁRIO
-    @GetMapping(value = "/{Id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Integer Id){
-        return ResponseEntity.ok().body(mapper.map(service.findById(Id), UserDTO.class));
-    }
 
-    // LISTAR USUARIOS
+    // get users
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
         List<User> list = service.findAll();
@@ -41,22 +35,27 @@ public class UserController {
         return ResponseEntity.ok().body(listDTO);
     }
 
-    // CADASTRAR USUARIOS
+    // add user
     @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody UserDTO obj) {
+    public ResponseEntity<UserDTO> create(@RequestBody @Valid UserDTO obj) {
         User newObj = service.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    // DELETAR USUARIO
-    @DeleteMapping("/{Id}")
-    public ResponseEntity deletarUsuario(@PathVariable Integer Id) throws UserNotFoundException {
-        boolean existe = service.delete(Id);
-        if (!existe) {
-            throw new UserNotFoundException("Usuário não encontrado");
-        }
-        return ResponseEntity.status(204).build();
+    // update user
+    @PutMapping(value = "/{Id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Integer Id, @RequestBody UserDTO obj) {
+        obj.setId(Id);
+        User newObj = service.update(obj);
+        return ResponseEntity.ok().body(mapper.map(newObj, UserDTO.class));
+    }
+
+    // delete user
+    @DeleteMapping(value = "/{Id}")
+    public ResponseEntity delete(@PathVariable Integer Id) {
+        service.delete(Id);
+        return ResponseEntity.noContent().build();
     }
 }
