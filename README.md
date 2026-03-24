@@ -61,47 +61,65 @@ src/
 
 📂 Domain
 Produto
+
 Lote
+
 Fornecedor
+
 StatusProduto (enum)
 
 ⚙️ Service
+
 ProdutoService
+
 LoteService
 
 💾 Infra
+
 ProdutoRepositoryMemoria
+
 LoteRepositoryMemoria
 
 🖥️ UI
+
 ConsoleUI
+
 Menu
 
 ▶️ Como executar
+
 git clone https://github.com/gabszinn/Nowaste.git
 
 Abrir na IDE (IntelliJ ou Eclipse) e executar a classe principal.
 
-🧪 Testes
+🧪 Testes:
 
 🚧 Ainda em desenvolvimento
 
 Planejado:
 
 Testes unitários com JUnit
+
 Testes BDD com Cucumber
-📊 Status do projeto
+
+📊 Status do projeto:
 
 ✔ Sprint 0 concluída
 
 Estrutura inicial criada
+
 Primeira funcionalidade implementada
 
 🚀 Próximos passos
+
 Listagem de lotes
+
 Produtos que vencem no mês
+
 Produtos próximos do vencimento
+
 Alertas
+
 Testes automatizados
 
 📌 Observação
@@ -109,7 +127,11 @@ Testes automatizados
 As funcionalidades detalhadas estão disponíveis no backlog do projeto (GitHub Issues).
 
 👥 Integrantes
+
 Gabriel Felipe
+
 Isadora Rodrigues
+
 Wesley Carvalho
+
 Henrique Cezar
