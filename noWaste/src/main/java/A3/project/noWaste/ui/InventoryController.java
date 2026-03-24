@@ -2,6 +2,8 @@ package A3.project.noWaste.ui;
 
 import A3.project.noWaste.domain.Inventory;
 import A3.project.noWaste.dto.InventoryDTO;
+import A3.project.noWaste.exceptions.ObjectNotFoundException;
+import A3.project.noWaste.infra.InventoryRepository;
 import A3.project.noWaste.service.InventoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,16 @@ public class InventoryController {
     private InventoryService service;
 
     @Autowired
+    private InventoryRepository repository;
+
+    @Autowired
     private ModelMapper mapper;
 
 
     // Buscar inventário por ID
     @GetMapping("/{id}")
     public ResponseEntity<InventoryDTO> findById(@PathVariable Integer id) {
-        Inventory inventory = service.findById(id);
+        Inventory inventory = repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Inventário não encontrado"));
         return ResponseEntity.ok().body(mapper.map(inventory, InventoryDTO.class));
     }
 
@@ -49,7 +54,7 @@ public class InventoryController {
         Inventory newInv = service.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(newInv.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(mapper.map(newInv, InventoryDTO.class));
     }
 
     // Atualizar inventário

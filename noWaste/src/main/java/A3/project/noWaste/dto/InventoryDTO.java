@@ -13,12 +13,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InventoryDTO {
 
-    private Integer id;
+    private Integer Id;
 
     @NotBlank(message = "O nome do inventário é obrigatório")
     private String name;
-
-    @NotNull(message = "O usuário é obrigatório")
-    private Integer userId;
 
 }
