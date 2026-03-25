@@ -27,11 +27,12 @@ Empresas que trabalham com estoque enfrentam dificuldades como:
 
 ---
 
-## ⚙️ Funcionalidades
+## ⚙️ Funcionalidades a serem implementadas:
 
 ### ✔️ Sprint 0 (Atual)
 
 * Cadastro de produtos
+* Aba de Login
 * Cadastro de lotes
 * Associação entre produto e lote
 * Estrutura inicial do projeto
