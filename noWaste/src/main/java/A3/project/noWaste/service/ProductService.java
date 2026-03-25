@@ -1,6 +1,5 @@
 package A3.project.noWaste.service;
 
-
 import A3.project.noWaste.domain.Product;
 import A3.project.noWaste.dto.ProductDTO;
 
@@ -10,11 +9,11 @@ public interface ProductService {
 
     Product findById(Integer id);
 
-    List<Product> findAll();
+    List<Product> findAllByInventory(Integer inventoryId);
 
-    Product create(ProductDTO obj);
+    Product create(Integer inventoryId, ProductDTO obj);
 
-    Product update(ProductDTO obj);
+    Product update(Integer id, ProductDTO obj);
 
     void delete(Integer id);
 }
