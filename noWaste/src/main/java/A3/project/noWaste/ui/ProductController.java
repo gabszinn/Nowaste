@@ -25,6 +25,7 @@ public class ProductController {
         this.mapper = mapper;
     }
 
+    // get product list
     @GetMapping("/inventories/{inventoryId}/products")
     public ResponseEntity<List<ProductDTO>> findAllByInventory(@PathVariable Integer inventoryId) {
         List<Product> list = service.findAllByInventory(inventoryId);
@@ -35,6 +36,7 @@ public class ProductController {
         return ResponseEntity.ok(listDTO);
     }
 
+    // get product
     @GetMapping("/inventories/{inventoryId}/products/{productId}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Integer inventoryId,
                                                @PathVariable Integer productId) {
@@ -42,11 +44,12 @@ public class ProductController {
         return ResponseEntity.ok(mapper.map(product, ProductDTO.class));
     }
 
+    // create product
     @PostMapping("/inventories/{inventoryId}/products")
     public ResponseEntity<ProductDTO> create(
             @PathVariable Integer inventoryId,
-            @Valid @RequestBody ProductDTO obj
-    ) {
+            @Valid @RequestBody ProductDTO obj) {
+
         Product newProduct = service.create(inventoryId, obj);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -57,6 +60,7 @@ public class ProductController {
         return ResponseEntity.created(uri).body(mapper.map(newProduct, ProductDTO.class));
     }
 
+    // update product
     @PutMapping("/inventories/{inventoryId}/products/{productId}")
     public ResponseEntity<ProductDTO> update(@PathVariable Integer inventoryId, @PathVariable Integer productId,
                                              @Valid @RequestBody ProductDTO obj) {
@@ -64,6 +68,7 @@ public class ProductController {
         return ResponseEntity.ok(mapper.map(updated, ProductDTO.class));
     }
 
+    //delete product
     @DeleteMapping("/inventories/{inventoryId}/products/{productId}")
     public ResponseEntity<Void> delete(@PathVariable Integer inventoryId, @PathVariable Integer productId) {
         service.delete(inventoryId, productId);

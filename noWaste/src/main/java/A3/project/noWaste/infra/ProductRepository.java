@@ -13,6 +13,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByInventoryId(Integer inventoryId);
 
     Optional<Product> findByIdAndInventoryId(Integer productId, Integer inventoryId);
-
-    boolean existsByNameIgnoreCaseAndInventoryId(String name, Integer inventoryId);
 }
