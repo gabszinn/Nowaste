@@ -65,8 +65,9 @@ Empresas que trabalham com estoque enfrentam dificuldades como:
 
 ## 🛠️ Tecnologias utilizadas
 
-* Java
+* Java(JDK 26)
 * Estrutura em camadas (Domain, Service, Repository, UI)
+* Banco de Dados MYSQL
 * JUnit (planejado)
 
 ---
@@ -86,10 +87,14 @@ Abrir na IDE (IntelliJ ou Eclipse) e executar a classe principal.
 ```bash
 src/
  └── main/java/
-     ├── domain
-     ├── service
-     ├── repository
-     └── ui
+     └── a3/project/noWaste/
+         ├── config
+         ├── domain
+         ├── dto
+         ├── exceptions
+         ├── infra
+         ├── service
+         └── ui
 ```
 
 ---
@@ -104,12 +109,14 @@ Testes serão implementados a partir da Sprint 1 utilizando JUnit.
 
 ---
 
-## 👨‍💻 Integrantes e papéis (Sprint 0)
+## 👨‍💻 Integrantes e papéis (Sprint 0-1(sprint 1 em desenvolvimento))
 
-* Gabriel Felipe — Product Owner/backend
-* Isadora Rodrigues — backend
-* Wesley Carvalho — backend
+* Gabriel Felipe — Product Owner/front
+* Isadora Rodrigues — frontend
+* Wesley Carvalho — Scrum Master
 * Henrique Cezar — backend
+* Gabrielly dos Santos - frontend
+
 
 ---
 
@@ -122,3 +129,4 @@ Testes serão implementados a partir da Sprint 1 utilizando JUnit.
 ## 📄 Licença
 
 GPL-3.0
+
