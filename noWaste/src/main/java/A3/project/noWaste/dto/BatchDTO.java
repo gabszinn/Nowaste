@@ -31,7 +31,4 @@ public class BatchDTO {
     private LocalDate expirationDate;
 
     private Double totalWeight;
-
-    @NotNull(message = "O produto e obrigatorio")
-    private Integer productId;
 }
