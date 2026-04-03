@@ -25,6 +25,16 @@ public class BatchController {
         this.mapper = mapper;
     }
 
+    // metodo auxiliar
+    private BatchDTO toDTO(Batch batch) {
+        BatchDTO dto = mapper.map(batch, BatchDTO.class);
+        dto.setTotalWeight(batch.getTotalWeight());
+        dto.setDaysToExpire(batch.getDaysToExpire());
+        dto.setStatus(batch.getStatus());
+        return dto;
+    }
+
+
 
     // listar todos os lotes
     @GetMapping("/inventories/{inventoryId}/products/{productId}/batches")
@@ -33,8 +43,7 @@ public class BatchController {
         List<Batch> list = service.findAllByProduct(inventoryId, productId);
 
         List<BatchDTO> listDTO = list.stream()
-                .map(batch -> mapper.map(batch, BatchDTO.class))
-                .collect(Collectors.toList());
+                .map(this::toDTO).collect(Collectors.toList());
 
         return ResponseEntity.ok(listDTO);
     }
@@ -45,7 +54,7 @@ public class BatchController {
                                              @PathVariable Integer batchId) {
         Batch batch = service.findById(inventoryId, productId, batchId);
 
-        return ResponseEntity.ok(mapper.map(batch, BatchDTO.class));
+        return ResponseEntity.ok(toDTO(batch));
     }
 
     // criar um lote
@@ -58,16 +67,16 @@ public class BatchController {
                 .buildAndExpand(newBatch.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(mapper.map(newBatch, BatchDTO.class));
+        return ResponseEntity.created(uri).body(toDTO(newBatch));
     }
 
     // atualizar um lote
     @PutMapping("/inventories/{inventoryId}/products/{productId}/batches/{batchId}")
     public ResponseEntity<BatchDTO> update(@PathVariable Integer inventoryId, @PathVariable Integer productId,
                                            @PathVariable Integer batchId, @Valid @RequestBody BatchDTO obj) {
-        Batch updated = service.update(inventoryId, productId, batchId, obj);
+        Batch batchUpdated = service.update(inventoryId, productId, batchId, obj);
 
-        return ResponseEntity.ok(mapper.map(updated, BatchDTO.class));
+        return ResponseEntity.ok(toDTO(batchUpdated));
     }
 
     // deletar um lote
