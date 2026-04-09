@@ -36,9 +36,24 @@ public class InventoryImpl implements InventoryService {
     }
 
     @Override
-    public List<Inventory> findAll() {
+    public List<Inventory> findAll(String name, String sort) {
         Integer userId = verificationService.getUserId();
-        return repository.findByUserId(userId);
+
+        List<Inventory> inventories;
+
+        if (name != null && !name.isBlank()) {
+            inventories = repository.findByUserIdAndNameContainingIgnoreCase(userId, name);
+        } else {
+            inventories = repository.findByUserId(userId);
+        }
+
+        if ("asc".equalsIgnoreCase(sort)) {
+            inventories.sort((i1, i2) -> i1.getCreatedAt().compareTo(i2.getCreatedAt()));
+        } else {
+            inventories.sort((i1, i2) -> i2.getCreatedAt().compareTo(i1.getCreatedAt()));
+        }
+
+        return inventories;
     }
 
     @Override
