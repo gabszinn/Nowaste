@@ -27,14 +27,18 @@ public class ProductController {
 
     // get product list
     @GetMapping("/inventories/{inventoryId}/products")
-    public ResponseEntity<List<ProductDTO>> findAllByInventory(@PathVariable Integer inventoryId) {
-        List<Product> list = service.findAllByInventory(inventoryId);
+    public ResponseEntity<List<ProductDTO>> findAllByInventory(
+            @PathVariable Integer inventoryId,
+            @RequestParam(required = false) String name
+    ) {
+        List<Product> list = service.findAllByInventory(inventoryId, name);
         List<ProductDTO> listDTO = list.stream()
                 .map(product -> mapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(listDTO);
     }
+
 
     // get product
     @GetMapping("/inventories/{inventoryId}/products/{productId}")
