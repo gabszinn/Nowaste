@@ -34,14 +34,17 @@ public class InventoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<InventoryDTO>> findAll() {
-        List<Inventory> list = service.findAll();
+    public ResponseEntity<List<InventoryDTO>> findAll(@RequestParam(required = false) String name,
+                                                      @RequestParam(defaultValue = "desc") String sort
+    ) {
+        List<Inventory> list = service.findAll(name, sort);
         List<InventoryDTO> listDTO = list.stream()
                 .map(inv -> mapper.map(inv, InventoryDTO.class))
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(listDTO);
+        return ResponseEntity.ok().body(listDTO);
     }
+
 
     @PostMapping
     public ResponseEntity<InventoryDTO> create(@Valid @RequestBody InventoryDTO obj) {
