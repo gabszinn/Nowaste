@@ -33,8 +33,18 @@ public class ProductController {
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) Double minWeight,
-            @RequestParam(required = false) Double maxWeight) {
-        List<Product> list = service.findAllByInventory(inventoryId, name, category, brand, minWeight, maxWeight);
+            @RequestParam(required = false) Double maxWeight,
+            @RequestParam(required = false) String sortWeight) {
+
+        List<Product> list = service.findAllByInventory(
+                inventoryId,
+                name,
+                category,
+                brand,
+                minWeight,
+                maxWeight,
+                sortWeight
+        );
         List<ProductDTO> listDTO = list.stream()
                 .map(product -> mapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
