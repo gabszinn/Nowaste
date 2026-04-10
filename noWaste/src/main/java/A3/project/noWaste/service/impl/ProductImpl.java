@@ -39,17 +39,14 @@ public class ProductImpl implements ProductService {
                 .orElseThrow(() -> new ObjectNotFoundException("Produto nao encontrado"));
     }
 
-    // filtros para nome, categoria, marca e peso
+    // retornar produtos e filtrar por nome, categoria, marca, peso e ordenação por peso
     @Override
-    public List<Product> findAllByInventory(
-            Integer inventoryId,
-            String name,
-            String category,
-            String brand,
-            Double minWeight,
-            Double maxWeight) {
+    public List<Product> findAllByInventory(Integer inventoryId, String name, String category,
+                                            String brand, Double minWeight,
+                                            Double maxWeight, String sortWeight) {
         Inventory inventory = findInventoryByUser(inventoryId);
         List<Product> products = repository.findByInventoryId(inventory.getId());
+
         if (name != null && !name.isBlank()) {
             products = products.stream()
                     .filter(product -> product.getName() != null
@@ -78,6 +75,15 @@ public class ProductImpl implements ProductService {
             products = products.stream()
                     .filter(product -> product.getWeight() != null
                             && product.getWeight() <= maxWeight)
+                    .toList();
+        }
+        if ("desc".equalsIgnoreCase(sortWeight)) {
+            products = products.stream()
+                    .sorted((p1, p2) -> p2.getWeight().compareTo(p1.getWeight()))
+                    .toList();
+        } else if ("asc".equalsIgnoreCase(sortWeight)) {
+            products = products.stream()
+                    .sorted((p1, p2) -> p1.getWeight().compareTo(p2.getWeight()))
                     .toList();
         }
         return products;
