@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,16 +36,28 @@ public class BatchController {
     }
 
 
-
-    // listar todos os lotes
+    // listar lote e filtrar por codigo, status, data de validade e ordenação por data de validade
     @GetMapping("/inventories/{inventoryId}/products/{productId}/batches")
-    public ResponseEntity<List<BatchDTO>> findAllByProduct(@PathVariable Integer inventoryId,
-                                                           @PathVariable Integer productId) {
-        List<Batch> list = service.findAllByProduct(inventoryId, productId);
+    public ResponseEntity<List<BatchDTO>> findAllByProduct(
+            @PathVariable Integer inventoryId,
+            @PathVariable Integer productId,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) LocalDate expirationFrom,
+            @RequestParam(required = false) LocalDate expirationTo,
+            @RequestParam(defaultValue = "asc") String sortExpiration) {
 
+        List<Batch> list = service.findAllByProduct(
+                inventoryId,
+                productId,
+                code,
+                status,
+                expirationFrom,
+                expirationTo,
+                sortExpiration);
         List<BatchDTO> listDTO = list.stream()
-                .map(this::toDTO).collect(Collectors.toList());
-
+                .map(this::toDTO)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(listDTO);
     }
 
@@ -87,5 +100,4 @@ public class BatchController {
 
         return ResponseEntity.noContent().build();
     }
-
 }
