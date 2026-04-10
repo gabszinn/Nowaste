@@ -31,6 +31,7 @@ public class BatchImpl implements BatchService {
     }
 
 
+    // lote especifico
     @Override
     public Batch findById(Integer inventoryId, Integer productId, Integer batchId) {
         Product product = findProductByInventory(inventoryId, productId);
@@ -38,10 +39,11 @@ public class BatchImpl implements BatchService {
                 .orElseThrow(() -> new ObjectNotFoundException("Lote não encontrado"));
     }
 
+    // listar lotes e filtrar por codigo, status, data de validade, quantidade e ordenação por data de validade
     @Override
-    public List<Batch> findAllByProduct(Integer inventoryId, Integer productId, String code,
-                                        String status, LocalDate expirationFrom,
-                                        LocalDate expirationTo, String sortExpiration) {
+    public List<Batch> findAllByProduct(Integer inventoryId, Integer productId, String code, String status,
+                                        LocalDate expirationFrom, LocalDate expirationTo, Integer minQuantity,
+                                        Integer maxQuantity, String sortExpiration) {
 
         Product product = findProductByInventory(inventoryId, productId);
         List<Batch> batches = repository.findByProductId(product.getId());
@@ -68,6 +70,18 @@ public class BatchImpl implements BatchService {
             batches = batches.stream()
                     .filter(batch -> batch.getExpirationDate() != null
                             && !batch.getExpirationDate().isAfter(expirationTo))
+                    .toList();
+        }
+        if (minQuantity != null) {
+            batches = batches.stream()
+                    .filter(batch -> batch.getQuantity() != null
+                            && batch.getQuantity() >= minQuantity)
+                    .toList();
+        }
+        if (maxQuantity != null) {
+            batches = batches.stream()
+                    .filter(batch -> batch.getQuantity() != null
+                            && batch.getQuantity() <= maxQuantity)
                     .toList();
         }
         if ("desc".equalsIgnoreCase(sortExpiration)) {
