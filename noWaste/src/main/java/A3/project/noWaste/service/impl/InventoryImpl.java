@@ -73,8 +73,9 @@ public class InventoryImpl implements InventoryService {
     @Override
     public Inventory update(Integer id, InventoryDTO obj) {
         Integer userId = verificationService.getUserId();
+        obj.setId(id);
 
-        Inventory upInventory = repository.findByIdAndUserId(obj.getId(), userId)
+        Inventory upInventory = repository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new ObjectNotFoundException("Inventario nao encontrado"));
 
         checkInventoryName(obj);
