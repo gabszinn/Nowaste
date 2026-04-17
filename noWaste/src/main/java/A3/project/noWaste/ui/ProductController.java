@@ -45,8 +45,7 @@ public class ProductController {
                 maxWeight,
                 sortWeight
         );
-        List<ProductDTO> listDTO = list.stream()
-                .map(product -> mapper.map(product, ProductDTO.class))
+        List<ProductDTO> listDTO = list.stream().map(this::toDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(listDTO);
     }
@@ -56,7 +55,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> findById(@PathVariable Integer inventoryId,
                                                @PathVariable Integer productId) {
         Product product = service.findById(inventoryId, productId);
-        return ResponseEntity.ok(mapper.map(product, ProductDTO.class));
+        return ResponseEntity.ok(toDTO(product));
     }
 
     // criar produto
@@ -68,7 +67,7 @@ public class ProductController {
                 .path("/{id}")
                 .buildAndExpand(newProduct.getId())
                 .toUri();
-        return ResponseEntity.created(uri).body(mapper.map(newProduct, ProductDTO.class));
+        return ResponseEntity.created(uri).body(toDTO(newProduct));
     }
 
     // atualizar produto
@@ -76,7 +75,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> update(@PathVariable Integer inventoryId, @PathVariable Integer productId,
                                              @Valid @RequestBody ProductDTO obj) {
         Product updated = service.update(inventoryId, productId, obj);
-        return ResponseEntity.ok(mapper.map(updated, ProductDTO.class));
+        return ResponseEntity.ok(toDTO(updated));
     }
 
     //deletar produto
@@ -84,5 +83,17 @@ public class ProductController {
     public ResponseEntity<Void> delete(@PathVariable Integer inventoryId, @PathVariable Integer productId) {
         service.delete(inventoryId, productId);
         return ResponseEntity.noContent().build();
+    }
+
+    // to DTO
+    private ProductDTO toDTO(Product product) {
+        ProductDTO dto = new ProductDTO();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setWeight(product.getWeightInGrams());
+        dto.setWeightUnit("g");
+        dto.setCategory(product.getCategory());
+        dto.setBrand(product.getBrand());
+        return dto;
     }
 }
