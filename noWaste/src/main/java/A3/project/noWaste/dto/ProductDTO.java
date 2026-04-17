@@ -26,4 +26,6 @@ public class ProductDTO {
 
     @NotBlank(message = "A marca do produto é obrigatória")
     private String brand;
+
+    private String weightUnit;
 }
