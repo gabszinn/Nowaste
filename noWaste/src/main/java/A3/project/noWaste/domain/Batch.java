@@ -44,12 +44,11 @@ public class Batch {
     private Double totalWeight;
 
 
-
     public Double getTotalWeight() {
-        if (product == null || product.getWeight() == null || quantity == null) {
+        if (product == null || product.getWeightInGrams() == null || quantity == null) {
             return 0.0;
         }
-        return product.getWeight() * quantity;
+        return product.getWeightInGrams() * quantity;
     }
 
     public Long getDaysToExpire() {
